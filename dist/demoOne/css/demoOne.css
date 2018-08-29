@@ -1,0 +1,22 @@
+.my-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg); }
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 32px;
+  color: green;
+  background: gray; }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center; }

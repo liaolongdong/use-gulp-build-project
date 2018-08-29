@@ -1,0 +1,21 @@
+.my-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px; }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 24px;
+  color: green;
+  background: gray; }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center; }
