@@ -18,7 +18,7 @@ $ yarn start
 ```
 $ yarn build:prod
 ```
-
+-----------------------------------
 使用`browserify`打包打一个文件及打包第三方类库
 ```
 $ gulp mainJs
