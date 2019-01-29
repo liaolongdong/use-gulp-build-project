@@ -143,6 +143,6 @@ gulp.task('devServer', function () {
 // 使用gulp命令，默认执行'default'任务
 gulp.task('default', ['minifyJs', 'minifyCss', 'minifyImgs', 'minifyHtml', 'devServer', 'watch'], function () {
     console.log('build successful!');
-    opn('http://127.0.0.1:8000/demoOne', {app: 'chrome'});
+    opn('http://127.0.0.1:8000/demoOne');
 });
 

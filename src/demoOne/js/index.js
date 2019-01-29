@@ -19,5 +19,4 @@
     about();
     console.log('this is demoOne order and about node was insert body node successful!');
     console.log('this is demoOne order and about node was insert body node successful!');
-    console.log('this is demoOne order and about node was insert body node successful!');
 })(window, document);

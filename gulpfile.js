@@ -1,11 +1,11 @@
 var gulp = require('gulp'); // 自动化构建项目的工具
 var fs = require('fs'); // node内置的文件系统模块
 var path = require('path'); // node内置的路径拼接处理模块
-var browserify = require('browserify'); // browserify 是一个浏览器端代码模块化工具，可以处理模块之间的依赖关系，让服务器端的 CommonJS 格式的模块可以运行在浏览器端
-var watchify = require('watchify'); // 一个持续监视文件的改动，并且只重新打包必要的文件的 browserify 打包工具
-var babelify = require('babelify'); // Babel browserify transform
-var source = require('vinyl-source-stream'); // browserify的输出不能直接用着gulp的输入，vinly-source-stream 主要是做一个转化，把node文件流转换成gulp能够处理的流
-var buffer = require('vinyl-buffer'); // 把gulp流转换成buffer
+// var browserify = require('browserify'); // browserify 是一个浏览器端代码模块化工具，可以处理模块之间的依赖关系，让服务器端的 CommonJS 格式的模块可以运行在浏览器端
+// var watchify = require('watchify'); // 一个持续监视文件的改动，并且只重新打包必要的文件的 browserify 打包工具
+// var babelify = require('babelify'); // Babel browserify transform
+// var source = require('vinyl-source-stream'); // browserify的输出不能直接用着gulp的输入，vinly-source-stream 主要是做一个转化，把node文件流转换成gulp能够处理的流
+// var buffer = require('vinyl-buffer'); // 把gulp流转换成buffer
 // var buffer = require('gulp-buffer'); // 把stream转成buffer
 // var streamify = require('gulp-streamify'); // 转换成gulp支持的流文件
 var runSequence = require('run-sequence'); // 按照指定顺序执行task任务的插件 
@@ -32,44 +32,44 @@ var buildPath = 'src'; // 要打包的文件目录
 var destPath = 'dist'; // 打包输出目录
 
 // 使用browserify和watchify加速打包以及打包第三方类库
-gulp.task('mainJs', function () {
-    var b = browserify({
-        entries: ['src/demoOne/js/indexBrowserify.js'],
-        cache: {},
-        packageCache: {},
-        plugin: [watchify]
-    }).transform(babelify, {presets: ['es2015']}); // 在browserify中使用es6语法
-    // .external('jquery').external('lodash'); // 使用external避免jquery和lodash重复打包打main.js文件
-    var bundle = function () {
-        b.bundle()
-            // .pipe(fs.createWriteStream('src/demoOne/js/main.js'));
-            .pipe(plumber())
-            .pipe(source('indexBrowserify.js'))
-            // .pipe(buffer())
-            // .pipe(uglify())
-            .pipe(rename('mainBrowserify.js'))
-            .pipe(gulp.dest(path.join('src/demoOne/js')))
-    }
-    bundle(); // 执行一次输出操作
-    b.on('update', bundle);
-});
+// gulp.task('mainJs', function () {
+//     var b = browserify({
+//         entries: ['src/demoOne/js/indexBrowserify.js'],
+//         cache: {},
+//         packageCache: {},
+//         plugin: [watchify]
+//     }).transform(babelify, {presets: ['es2015']}); // 在browserify中使用es6语法
+//     // .external('jquery').external('lodash'); // 使用external避免jquery和lodash重复打包打main.js文件
+//     var bundle = function () {
+//         b.bundle()
+//             // .pipe(fs.createWriteStream('src/demoOne/js/main.js'));
+//             .pipe(plumber())
+//             .pipe(source('indexBrowserify.js'))
+//             // .pipe(buffer())
+//             // .pipe(uglify())
+//             .pipe(rename('mainBrowserify.js'))
+//             .pipe(gulp.dest(path.join('src/demoOne/js')))
+//     }
+//     bundle(); // 执行一次输出操作
+//     b.on('update', bundle);
+// });
 
-// 单独打包第三方库到vendor.js
-gulp.task('vendorJs', function () {
-    var b = browserify()
-        .require('jquery', {
-            expose: 'jquery' // 别名
-        })
-        .require('lodash', {
-            expose: 'lodash'
-        })
-        .bundle()
-        .pipe(fs.createWriteStream('src/demoOne/js/vendor.js'));
-});
+// // 单独打包第三方库到vendor.js
+// gulp.task('vendorJs', function () {
+//     var b = browserify()
+//         .require('jquery', {
+//             expose: 'jquery' // 别名
+//         })
+//         .require('lodash', {
+//             expose: 'lodash'
+//         })
+//         .bundle()
+//         .pipe(fs.createWriteStream('src/demoOne/js/vendor.js'));
+// });
 
-gulp.task('buildMain', function () {
-    runSequence('vendorJs', 'mainJs');
-});
+// gulp.task('buildMain', function () {
+//     runSequence('vendorJs', 'mainJs');
+// });
 
 /**
  * @param { dir：string，文件夹名称}
@@ -139,14 +139,6 @@ gulp.task('minifyHtml', function () {
         });
 });
 
-// 监听文件修改
-gulp.task('watch', function () {
-    gulp.watch('src/**/js/*.js', ['minifyJs']);
-    gulp.watch(['src/**/css/*.css', 'src/**/css/*.scss'], ['minifyCss']);
-    gulp.watch('src/**/imgs/*.*', ['minifyImgs']);
-    gulp.watch('src/**/*.html', ['minifyHtml']);
-});
-
 // 创建本地web服务
 gulp.task('devServer', function () {
     connect.server({
@@ -158,9 +150,19 @@ gulp.task('devServer', function () {
     });
 });
 
+// 监听文件修改
+gulp.task('watch', function () {
+    gulp.watch('src/**/js/*.js', ['minifyJs']);
+    gulp.watch(['src/**/css/*.css', 'src/**/css/*.scss'], ['minifyCss']);
+    gulp.watch('src/**/imgs/*.*', ['minifyImgs']);
+    gulp.watch('src/**/*.html', ['minifyHtml']);
+});
+
 // 使用gulp命令，默认执行'default'任务
 gulp.task('default', ['minifyJs', 'minifyCss', 'minifyImgs', 'minifyHtml', 'devServer', 'watch'], function () {
     console.log('build successful!');
-    opn('http://127.0.0.1:8000/demoOne', {app: 'chrome'});
+    // 在mac上设置打开的浏览器类型为chrome会报：UnhandledPromiseRejectionWarning: Error: Exited with code 1 错误
+    // opn('http://127.0.0.1:8000/demoOne', {app: 'chrome'});
+    opn('http://127.0.0.1:8000/demoOne');
 });
 
